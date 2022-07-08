@@ -16,6 +16,7 @@ const applicationID = process.env.APPLICATION_ID || '';
 const applicationClientID = process.env.APP_CLIENT_ID || '';
 const applicationClientSecret = process.env.APP_CLIENT_SECRET || '';
 const authenticatorConfigID = process.env.AUTH_CONFIG_ID || '';
+const vdcRegion = process.env.VDC_REGION || '';
 const authorizationHeaderSecret = Buffer.from(applicationClientID+':'+applicationClientSecret, 'utf8').toString('base64')
 
 
@@ -25,7 +26,7 @@ app.get('/', (req, res) => {
 
 app.post('/users/signup', (req, res) => {
     // Create Identity
-    axios.post('https://api-us.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities', 
+    axios.post('https://api-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities', 
     {
         identity: {
             display_name: req.body.username,
@@ -41,7 +42,7 @@ app.post('/users/signup', (req, res) => {
     })
     .then(createIdentityResponse => {
         // Create credential binding job
-        axios.post('https://api-us.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities/'+createIdentityResponse.data.id+'/credential-binding-jobs', {
+        axios.post('https://api-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities/'+createIdentityResponse.data.id+'/credential-binding-jobs', {
             job: {
                 authenticator_config_id: authenticatorConfigID,
                 delivery_method: 'RETURN'
@@ -71,7 +72,7 @@ app.get('/bi-authenticate', (req, res) => {
 
 app.get('/auth', (req, res) => {
     res.json({
-        authURL: 'https://auth-us.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/applications/'+applicationID+'/authorize',
+        authURL: 'https://auth-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/applications/'+applicationID+'/authorize',
         clientID: applicationClientID
     })
 })
@@ -85,7 +86,7 @@ app.get('/auth/callback', (req, res) => {
     params.append('code', req.query.code)
     params.append('redirect_uri', 'http://localhost:3000/auth/callback')
 
-    axios.post('https://auth-us.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/applications/'+applicationID+'/token',
+    axios.post('https://auth-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/applications/'+applicationID+'/token',
     params ,{
             headers: { 
                 'Authorization': `Basic ${authorizationHeaderSecret}`,
@@ -145,6 +146,13 @@ app.listen(port, () => {
     console.log("environment variable APP_CLIENT_SECRET is set")
   } else {
     console.log("environment variable APP_CLIENT_SECRET is not set")
+    process.exit(1)
+  }
+
+  if ('VDC_REGION' in process.env) {
+    console.log("environment variable VDC_REGION is set: ", process.env.VDC_REGION)
+  } else {
+    console.log("environment variable VDC_REGION is not set")
     process.exit(1)
   }
   console.log(`Example app listening on port ${port}`)
