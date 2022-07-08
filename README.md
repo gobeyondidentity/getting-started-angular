@@ -26,7 +26,7 @@ In this guide we will first construct a tenant, and then connect the Beyond Iden
 
 1. Install dependencies with `npm install`
 
-2. Copy the wasm over with `npm copy:wasm`
+2. Copy the wasm over with `npm run copy:wasm`
 
 3. Source the .env file `source .env`
 
