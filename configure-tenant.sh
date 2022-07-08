@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## Select the VDC you created a tenant on
+VDC_API_SERVER=api-us.beyondidentity.com
+# VDC_API_SERVER=api-eu.beyondidentity.com
+
 set -euo pipefail
 
 if [ -z $API_TOKEN ]; then
@@ -17,28 +21,43 @@ if ! which jq >/dev/null; then
     exit 1
 fi
 
-set -x
+#set -x
 
 # Create a realm in your tenant
-REALM_ID=$( curl -X POST https://api-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms \
-    -d '{"realm" : { "display_name" : "Demo Realm" }}' \
+if REALM_ID=$( curl -X POST https://$VDC_API_SERVER/v1/tenants/$TENANT_ID/realms \
+    -d '{"realm" : { "display_name" : "Getting Started Realm" }}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
-    | jq -r '.id' )
+    | jq -r '.id' ) ; then
+    echo "Created Realm: Getting Started Realm - ${REALM_ID}" 
+else
+    echo "Failed to create realm"
+    exit 1
+fi
 
 # Create an authenticator config in the realm
-AUTH_CONFIG_ID=$( curl -X POST https://api-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs \
+if AUTH_CONFIG_ID=$( curl -X POST https://$VDC_API_SERVER/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs \
     -d '{ "authenticator_config" : { "config" : { "type" : "embedded", "invoke_url" : "http://localhost:3000", "trusted_origins" : ["http://localhost:4200"] }}}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
-    | jq -r '.id' )
+    | jq -r '.id' ) ; then
+    echo "Created Authentication Config - ${AUTH_CONFIG_ID}"
+else
+    echo "Failed to create authentication config"
+    exit 1
+fi
 
 # Create an application in the realm
-read APPLICATION_ID APP_CLIENT_ID APP_CLIENT_SECRET < <(echo $( curl -X POST https://api-us.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications \
-    -d '{ "application": { "protocol_config": {"type" : "oidc", "allowed_scopes": [], "confidentiality":"confidential", "token_endpoint_auth_method" : "client_secret_basic", "grant_type": ["authorization_code"], "redirect_uris":["http://localhost:3000/auth/callback"], "token_configuration": {"expires_after":86400, "token_signing_algorithm": "RS256", "subject_field":"USERNAME"}}, "authenticator_config" : "'"$AUTH_CONFIG_ID"'", "display_name": "Demo Application"}}' \
+if read APPLICATION_ID APP_CLIENT_ID APP_CLIENT_SECRET < <(echo $( curl -X POST https://$VDC_API_SERVER/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications \
+    -d '{ "application": { "protocol_config": {"type" : "oidc", "allowed_scopes": [], "confidentiality":"confidential", "token_endpoint_auth_method" : "client_secret_basic", "grant_type": ["authorization_code"], "redirect_uris":["http://localhost:3000/auth/callback"], "token_configuration": {"expires_after":86400, "token_signing_algorithm": "RS256", "subject_field":"USERNAME"}}, "authenticator_config" : "'"$AUTH_CONFIG_ID"'", "display_name": "Getting Started Application"}}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
-    | jq -r '.id, .protocol_config.client_id, .protocol_config.client_secret' ))
+    | jq -r '.id, .protocol_config.client_id, .protocol_config.client_secret' )) ; then
+    echo "Created Application: Getting Started Application - ${APPLICATION_ID}"
+else
+    echo "Failed to create application config"
+    exit 1
+fi
 
 echo "# Generated with ./build-tenant.sh" > .env
 echo "export TENANT_ID=${TENANT_ID}" >> .env

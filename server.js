@@ -99,7 +99,6 @@ app.get('/auth/callback', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(process.env)
   if ('API_TOKEN' in process.env) {
     console.log("environment variable API_TOKEN is set")
   } else {
