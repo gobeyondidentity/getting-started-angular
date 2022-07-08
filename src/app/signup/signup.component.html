@@ -1,0 +1,38 @@
+
+
+<div class="row">
+    <div class="column">
+        <h3> Sign up Flow </h3>
+        This is the inline signup flow. All a user needs to do is enter a username, and a passkey is created.
+
+        <br><br>
+        This is what happens when you enter a username and click signup
+        <ol>
+            <li>A <a href="https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1#tag/Identities/operation/CreateIdentity" target="_blank">Create Identity request</a> is made to the Beyond Identity directory (and is successful).</li>
+            <li>A <a href="https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob" target="_blank">Create Credential Binding Job request</a> is made to the Beyond Identity directory. The response returns a credential binding link</li> 
+            <li>The credential binding link is passed to the embedded sdk</li>
+            <li>During the credential binding flow the embedded SDK asks the Beyond Identity policy engine if the credential binding is allowed.</li>
+            <li>If allowed a passkey will be created on the device, and can be used for future authentications</li>
+        </ol>
+
+    </div>
+    <div class="column">
+        <h3> Try it out </h3>
+    <div *ngIf="user.username == '' && user.credentialBindingLink == '' && user.credentialID == ''">
+        <div class="row">
+                <label for="new-user">Username: </label>
+                <input id="new-user" #username />
+        </div>
+            <button type="button" (click)="signup(username.value); username.value=''">
+                Sign up
+            </button>
+    </div>
+    <div *ngIf="user.username != '' && user.credentialID == ''">
+        Creating Secure Passkey...
+    </div>
+    <div *ngIf="user.credentialID != ''">
+        Created Passkey! Welcome <b>{{user.username}}</b>
+    </div></div>
+  </div>
+
+
