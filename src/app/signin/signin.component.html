@@ -3,7 +3,7 @@
         <h3> Sign in Flow </h3>
         This is the signin flow. Just click your username to sign in. The passkeys are stored on your device.
         <br><br>
-        This is what happens when you click a credential.<br>
+        This is what happens when you click a passkey.<br>
         <ol>
             <li>An /authorization request is sent to Beyond Identity auth Server</li>
             <li>A auth invocation token is returned to your Application</li>
@@ -13,12 +13,12 @@
             <li>The code is then exchanged for a id_token from the Beyond Identity auth server.</li>
         </ol>
     </div>
-    <div class="column">
+    <div style="margin-left: 50px; float: left; width: 40%;" >
         <h3> Try it out </h3>
         <div *ngIf="!selectedCredential">
-            <p>Select a user to login with</p>
+            <p>Select a passkey to login with</p>
                 <div *ngFor="let credential of credentials">
-                    <button (click)="onSelect(credential)">
+                    <button style="width: 60%;" (click)="onSelect(credential)">
                     <span>{{credential.identity.username}}</span>
                 </button>
         

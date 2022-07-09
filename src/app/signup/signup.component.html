@@ -2,11 +2,11 @@
 
 <div class="row">
     <div class="column">
-        <h3> Sign up Flow </h3>
-        This is the inline signup flow. All a user needs to do is enter a username, and a passkey is created.
+        <h3> Create Passkey (in-line)</h3>
+        This is the inline create passkey flow. All a user needs to do is enter a username, and a passkey is created.
 
         <br><br>
-        This is what happens when you enter a username and click signup
+        This is what happens when you enter a username and click Create Passkey
         <ol>
             <li>A <a href="https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1#tag/Identities/operation/CreateIdentity" target="_blank">Create Identity request</a> is made to the Beyond Identity directory (and is successful).</li>
             <li>A <a href="https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob" target="_blank">Create Credential Binding Job request</a> is made to the Beyond Identity directory. The response returns a credential binding link</li> 
@@ -23,9 +23,11 @@
                 <label for="new-user">Username: </label>
                 <input id="new-user" #username />
         </div>
+        <div class="row">
             <button type="button" (click)="signup(username.value); username.value=''">
-                Sign up
+                Create Passkey
             </button>
+        </div>
     </div>
     <div *ngIf="user.username != '' && user.credentialID == ''">
         Creating Secure Passkey...
