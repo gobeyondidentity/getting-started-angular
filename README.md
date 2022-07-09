@@ -6,11 +6,9 @@ In this guide we will first construct a tenant, and then connect the Beyond Iden
 
 1. Must have nodejs installed. https://nodejs.org/en/download/
 
-2. Must have angular cli installed. `npm install -g @angular/cli` https://angular.io/cli
+2. Must have brew installed. `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` https://brew.sh/
 
-3. Must have brew installed. `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` https://brew.sh/
-
-4. Must have jq and curl installed `brew install jq curl` 
+3. Must have jq and curl installed `brew install jq curl` 
 
 ## Tenant Construction
 
@@ -26,12 +24,12 @@ In this guide we will first construct a tenant, and then connect the Beyond Iden
 
 1. Install dependencies with `npm install`
 
-2. Copy the wasm over with `npm run copy:wasm`
+2. Copy the wasm over with `npm run build`
 
 3. Source the .env file `source .env`
 
 4. Start the backend server with `node server.js`
 
-5. In another window start the frontend app with `ng serve`
+5. In another window start the frontend app with `npm run start`
 
 6. Open your browser and go to `http://localhost:4200`
