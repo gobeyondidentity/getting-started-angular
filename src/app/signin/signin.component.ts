@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { embeddedSdk } from '../embeddedSdk';
 import { Credential } from '@beyondidentity/bi-sdk-js';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CredentialRedirect } from '../credentialredirect';
 import { IDToken } from '../idtoken';
 import jwt_decode from 'jwt-decode';
@@ -44,9 +44,9 @@ export class SigninComponent implements OnInit {
         .subscribe((credentialRedirect) => {
           let authLink: string =
             credentialRedirect.body?.authInvocationLink || '';
-          let credentialBindingLink = 'http://localhost:4200' + authLink;
+          let authenticateUrl = 'http://localhost:4200' + authLink;
           embeddedSdk
-            .authenticate(credentialBindingLink, () => {
+            .authenticate(authenticateUrl, () => {
               return this.selectedCredential.id;
             })
             .then((res) => {
