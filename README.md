@@ -16,7 +16,7 @@ In this guide we will first construct a tenant, and then connect the Beyond Iden
 
 1. Create a tenant by going to https://console-us.beyondidentity.com/signup
 
-2. Create an API Token for your tenant by going to Applications -> "Beyond Identity Management API" -> "API Tokens. Copy the token and save it
+2. Create an API Token for your tenant by going to Applications -> "Beyond Identity Management API" -> "API Tokens". Copy the token and save it
 
 3. Get your tenant id and save it
 

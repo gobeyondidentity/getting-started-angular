@@ -59,7 +59,7 @@ else
     exit 1
 fi
 
-echo "# Generated with ./build-tenant.sh" > .env
+echo "# Generated with ./configure-tenant.sh" > .env
 echo "export TENANT_ID=${TENANT_ID}" >> .env
 echo "export API_TOKEN=${API_TOKEN}" >> .env
 echo "export REALM_ID=${REALM_ID}" >> .env
