@@ -1,15 +1,14 @@
 <div class="row">
     <div class="column">
-        <h3> Sign in Flow </h3>
+        <h3>Sign in with Passkey</h3>
         This is the signin flow. Just click your username to sign in. The passkeys are stored on your device.
         <br><br>
         This is what happens when you click a passkey.<br>
         <ol>
-            <li>An /authorization request is sent to Beyond Identity auth Server</li>
-            <li>A auth invocation token is returned to your Application</li>
-            <li>The auth invocation token and selected credential ID are passed to the embedded sdk function, and the Beyond Identity auth flow is started.</li>
-            <li>During the Beyond Identity auth flow the embedded SDK asks the Beyond Identity policy engine if the authentication is allowed or denied</li>
-            <li>If allowed the embedded SDK will return a code.</li>
+            <li>An authorize request is sent to Beyond Identity OAuth server</li>
+            <li>The response returns a redirect to your application that also contains a unique challenge</li>
+            <li>The passkey is used to sign the challenge.</li>
+            <li>The SDK generates a code</li>
             <li>The code is then exchanged for a id_token from the Beyond Identity auth server.</li>
         </ol>
     </div>
@@ -19,9 +18,8 @@
             <p>Select a passkey to login with</p>
                 <div *ngFor="let credential of credentials">
                     <button style="width: 60%;" (click)="onSelect(credential)">
-                    <span>{{credential.identity.username}}</span>
-                </button>
-        
+                        <span>{{credential.identity.username}}</span>
+                    </button>
                 </div>    
         </div>
         <div *ngIf="selectedCredential && !idToken">
