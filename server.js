@@ -21,7 +21,7 @@ const authorizationHeaderSecret = Buffer.from(applicationClientID+':'+applicatio
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.redirect("http://localhost:3002")
 })
 
 app.post('/users/signup', (req, res) => {
@@ -155,5 +155,5 @@ app.listen(port, () => {
     console.log("environment variable VDC_REGION is not set")
     process.exit(1)
   }
-  console.log(`Server started!`)
+  console.log(`Server started.`)
 })
