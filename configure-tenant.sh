@@ -37,7 +37,7 @@ fi
 
 # Create an authenticator config in the realm
 if AUTH_CONFIG_ID=$( curl -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs \
-    -d '{ "authenticator_config" : { "config" : { "type" : "embedded", "invoke_url" : "http://localhost:3000", "trusted_origins" : ["http://localhost:4200"] }}}' \
+    -d '{ "authenticator_config" : { "config" : { "type" : "embedded", "invoke_url" : "http://localhost:3001", "trusted_origins" : ["http://localhost:3002"] }}}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
     | jq -r '.id' ) ; then
@@ -49,7 +49,7 @@ fi
 
 # Create an application in the realm
 if read APPLICATION_ID APP_CLIENT_ID APP_CLIENT_SECRET < <(echo $( curl -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications \
-    -d '{ "application": { "protocol_config": {"type" : "oidc", "allowed_scopes": [], "confidentiality":"confidential", "token_endpoint_auth_method" : "client_secret_basic", "grant_type": ["authorization_code"], "redirect_uris":["http://localhost:3000/auth/callback"], "token_configuration": {"expires_after":86400, "token_signing_algorithm": "RS256", "subject_field":"USERNAME"}}, "authenticator_config" : "'"$AUTH_CONFIG_ID"'", "display_name": "Getting Started Application"}}' \
+    -d '{ "application": { "protocol_config": {"type" : "oidc", "allowed_scopes": [], "confidentiality":"confidential", "token_endpoint_auth_method" : "client_secret_basic", "grant_type": ["authorization_code"], "redirect_uris":["http://localhost:3001/auth/callback"], "token_configuration": {"expires_after":86400, "token_signing_algorithm": "RS256", "subject_field":"USERNAME"}}, "authenticator_config" : "'"$AUTH_CONFIG_ID"'", "display_name": "Getting Started Application"}}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
     | jq -r '.id, .protocol_config.client_id, .protocol_config.client_secret' )) ; then

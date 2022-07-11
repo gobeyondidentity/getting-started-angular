@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit {
   onSelect(credential: Credential): void {
     this.selectedCredential = credential;
 
-    this.http.get<any>('http://localhost:3000/auth').subscribe((authRes) => {
+    this.http.get<any>('http://localhost:3001/auth').subscribe((authRes) => {
       this.http
         .get<CredentialRedirect>(
           authRes.authURL,
@@ -35,7 +35,7 @@ export class SigninComponent implements OnInit {
             observe: 'response',
             params: {
               response_type: 'code',
-              redirect_uri: 'http://localhost:3000/auth/callback',
+              redirect_uri: 'http://localhost:3001/auth/callback',
               scope: 'openid',
               client_id: authRes.clientID,
             },
@@ -44,7 +44,7 @@ export class SigninComponent implements OnInit {
         .subscribe((credentialRedirect) => {
           let authLink: string =
             credentialRedirect.body?.authInvocationLink || '';
-          let authenticateUrl = 'http://localhost:4200' + authLink;
+          let authenticateUrl = 'http://localhost:3002' + authLink;
           embeddedSdk
             .authenticate(authenticateUrl, () => {
               return this.selectedCredential.id;

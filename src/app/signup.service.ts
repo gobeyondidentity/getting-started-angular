@@ -23,7 +23,7 @@ export class SignupService {
   // On submitForm make request to backend
   submitForm(user: User): Observable<User> {
     return this.http
-      .post<User>('http://localhost:3000/users/signup', user, this.httpOptions)
+      .post<User>('http://localhost:3001/users/signup', user, this.httpOptions)
       .pipe(
         tap((newUser: User) =>
           this.log('Received signup response from backend')

@@ -4,7 +4,7 @@ const cors = require('cors')
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express()
-const port = 3000
+const port = 3001
 app.use(cors())
 app.use(express.json())
 
@@ -84,7 +84,7 @@ app.get('/auth/callback', (req, res) => {
     params.append('client_id', applicationClientID)
     params.append('grant_type', 'authorization_code')
     params.append('code', req.query.code)
-    params.append('redirect_uri', 'http://localhost:3000/auth/callback')
+    params.append('redirect_uri', 'http://localhost:'+port+'/auth/callback')
 
     axios.post('https://auth-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/applications/'+applicationID+'/token',
     params ,{
@@ -155,5 +155,5 @@ app.listen(port, () => {
     console.log("environment variable VDC_REGION is not set")
     process.exit(1)
   }
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Server is running...`)
 })
