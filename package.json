@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "(source .env && node server.js) & ng serve --port 3002",
     "build": "yarn copy:wasm && ng build",
+    "serve": "source .env && node server.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "copy:wasm": "cp -R node_modules/@beyondidentity/bi-sdk-js/coresdk/dist/*.wasm src"
