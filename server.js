@@ -155,5 +155,5 @@ app.listen(port, () => {
     console.log("environment variable VDC_REGION is not set")
     process.exit(1)
   }
-  console.log(`Server is running...`)
+  console.log(`Server started!`)
 })
