@@ -2,7 +2,8 @@
 
 # Getting started | Demo app
 
-You can find instructions to create a Beyond Identity tenant and use this example here: 
+This is the accompanying example for the Getting Started section of the Developer Docs. 
 
+To learn more about this repo, read the docs:
 https://developer.beyondidentity.com/docs/v1/getting-started
 
