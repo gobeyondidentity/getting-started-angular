@@ -1,0 +1,62 @@
+<div *ngIf="identity.username == '' && identity.id == ''">
+    <div class="row">
+        <div class="column">
+            <h3>Step 1) Create Identity</h3>
+            <br>
+            First lets create an identity. This step will provision the identity to the Beyond Identity directory. Enter a username for the identity and click 'Continue'
+        </div>
+        <div style="margin-left: 50px; float: left; width: 40%;">
+            <br>
+            <br>
+            <br>
+            <br>
+            <label for="new-user">Username: </label>
+            <input id="new-user" #username />
+            <button type="button" (click)="createUser(username.value); username.value=''">Continue</button>
+        </div>
+
+    </div>
+</div>
+<div *ngIf="identity.username != '' && identity.id != '' && enrollTrustedEmail == false">
+    <div class="row">
+        <div class="column">
+            <H3>Step 2) Create a Passkey </H3>
+            <p>The identity {{identity.username}} has been provisioned to the Beyond Identity directory. Now lets create a passkey for {{identity.username}}. Future logins for {{identity.username}} will be authorized by this device using a passkey.</p>
+        </div>
+        <div style="margin-left: 50px; float: left; width: 40%;">
+            <br>
+            <br>
+            <br>
+            <div *ngIf="identity.credentialID == '' && identity.passkeyLink == ''" class="row">
+                <button style="width: 60%;" type="button" (click)="createPasskey()">Create Passkey</button>
+            </div>
+            <div *ngIf="identity.passkeyLink != '' && identity.credentialID == ''">
+                <p>Creating Passkey...</p>
+            </div>
+            <div *ngIf="identity.credentialID != '' && identity.passkeyLink != ''" class="row">
+                <b>Successfully created Passkey for {{identity.username}}!</b>
+                <br>
+                <button style="width: 60%;" type="button"  (click)="enrollEmail();">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="identity.username != '' && identity.id != '' && enrollTrustedEmail == true">
+    <div class="row">
+        <div class="column">
+            <H3>Step 3) Enroll a trusted Email (optional) </H3>
+            <p>A passkey has been created for {{identity.username}}. Now we can optionally enroll a trusted email. A trusted email will allow the user to recover or create a passkey on their device.</p>
+        </div>
+        <div style="margin-left: 50px; float: left; width: 40%;">
+            <br>
+            <br>
+            <br>
+            <label for="new-user">Email: </label>
+            <input id="new-user" #email />
+            <button type="button">Continue</button>
+        </div>
+    </div>
+</div>
+
+
+

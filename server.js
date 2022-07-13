@@ -24,6 +24,50 @@ app.get('/', (req, res) => {
   res.redirect("http://localhost:3002")
 })
 
+app.post('/users/create', (req, res) => {
+  // Create Identity
+  axios.post('https://api-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities', 
+  {
+      identity: {
+          display_name: req.body.username,
+          traits: {
+              version: 'traits_v0',
+              username: req.body.username
+          }
+      }
+  },{
+      headers: {
+          'Authorization': `Bearer ${apiKey}`
+      }
+  }).then(createResp => {
+    //console.log(`got response back ${createResp.data.id}`)
+    res.json({username: req.body.username, id: createResp.data.id})
+
+  }).catch(error => {
+    console.log('failed to created identity')
+    console.error(error.response.data);
+  });
+})
+
+app.post('/users/generate-passkey-link', (req, res) => {
+  // Grab passkey link from backend
+  axios.post('https://api-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities/'+req.body.id+'/credential-binding-jobs', {
+            job: {
+                authenticator_config_id: authenticatorConfigID,
+                delivery_method: 'RETURN'
+            }
+        },{
+            headers: { 'Authorization': `Bearer ${apiKey}` }
+        })
+        .then(credentialBindingJobResponse => {
+            console.log(`got passkey link from BI API ${credentialBindingJobResponse.data.credential_binding_link}`)
+            // Return Credential Binding Link back to frontend
+            res.json({ 
+                passkeyLink: credentialBindingJobResponse.data.credential_binding_link
+            })
+        })
+})
+
 app.post('/users/signup', (req, res) => {
     // Create Identity
     axios.post('https://api-'+vdcRegion+'.beyondidentity.com/v1/tenants/'+tenantID+'/realms/'+realmID+'/identities', 

@@ -30,7 +30,7 @@ fi
 #set -x
 
 # Create a realm in your tenant
-if REALM_ID=$( curl -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms \
+if REALM_ID=$( curl -f -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms \
     -d '{"realm" : { "display_name" : "Test Realm" }}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
@@ -42,7 +42,7 @@ else
 fi
 
 # Create an authenticator config in the realm
-if AUTH_CONFIG_ID=$( curl -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs \
+if AUTH_CONFIG_ID=$( curl -f -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/authenticator-configs \
     -d '{ "authenticator_config" : { "config" : { "type" : "embedded", "invoke_url" : "http://localhost:3001", "trusted_origins" : ["http://localhost:3002"] }}}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
@@ -54,7 +54,7 @@ else
 fi
 
 # Create an application in the realm
-if read APPLICATION_ID APP_CLIENT_ID APP_CLIENT_SECRET < <(echo $( curl -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications \
+if read APPLICATION_ID APP_CLIENT_ID APP_CLIENT_SECRET < <(echo $( curl -f -X POST https://api-$VDC_REGION.beyondidentity.com/v1/tenants/$TENANT_ID/realms/$REALM_ID/applications \
     -d '{ "application": { "protocol_config": {"type" : "oidc", "allowed_scopes": [], "confidentiality":"confidential", "token_endpoint_auth_method" : "client_secret_basic", "grant_type": ["authorization_code"], "redirect_uris":["http://localhost:3001/auth/callback"], "token_configuration": {"expires_after":86400, "token_signing_algorithm": "RS256", "subject_field":"USERNAME"}}, "authenticator_config" : "'"$AUTH_CONFIG_ID"'", "display_name": "Test Application"}}' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $API_TOKEN" \
