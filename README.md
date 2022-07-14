@@ -15,3 +15,10 @@ This is the accompanying example for the Getting Started section of the Develope
 To learn more about this repo, read the docs:
 https://developer.beyondidentity.com/docs/v1/getting-started
 
+
+## Project Resources
+
+| Resource                                   | Description                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------- |
+| [CODEOWNERS](https://github.com/gobeyondidentity/getting-started/blob/main/CODEOWNERS)                 | Outlines the project lead(s)                                                  |
+| [LICENSE](https://github.com/gobeyondidentity/getting-started/blob/main/LICENSE)                       | Apache License, Version 2.0                                                   |
