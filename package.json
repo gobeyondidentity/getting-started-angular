@@ -4,12 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "(source .env && node server.js) & ng serve --port 3002",
-    "build": "yarn copy:wasm && ng build",
+    "build": "ng build",
     "serve": "source .env && node server.js",
     "serve_win": "node server.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "copy:wasm": "cp -R node_modules/@beyondidentity/bi-sdk-js/coresdk/dist/*.wasm src"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +20,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "@beyondidentity/bi-sdk-js": "^1.0.4",
+    "@beyondidentity/bi-sdk-js": "1.0.6",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "jwt-decode": "^3.1.2",
