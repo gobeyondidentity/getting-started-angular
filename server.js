@@ -100,58 +100,42 @@ app.get('/auth/callback', (req, res) => {
 })
 
 app.listen(port, () => {
-  if ('API_TOKEN' in process.env) {
-    console.log("environment variable API_TOKEN is set")
-  } else {
+  if (! 'API_TOKEN' in process.env) {
     console.log("environment variable API_TOKEN is not set")
     process.exit(1)
   }
 
-  if ('TENANT_ID' in process.env) {
-    console.log("environment variable TENANT_ID is set: ", process.env.TENANT_ID)
-  } else {
+  if (! 'TENANT_ID' in process.env) {
     console.log("environment variable TENANT_ID is not set")
     process.exit(1)
   }
 
-  if ('REALM_ID' in process.env) {
-    console.log("environment variable REALM_ID is set: ", process.env.REALM_ID)
-  } else {
+  if (! 'REALM_ID' in process.env) {
     console.log("environment variable REALM_ID is not set")
     process.exit(1)
   }
 
-  if ('AUTH_CONFIG_ID' in process.env) {
-    console.log("environment variable AUTH_CONFIG_ID is set: ", process.env.AUTH_CONFIG_ID)
-  } else {
+  if (! 'AUTH_CONFIG_ID' in process.env) {
     console.log("environment variable AUTH_CONFIG_ID is not set")
     process.exit(1)
   }
 
-  if ('APPLICATION_ID' in process.env) {
-    console.log("environment variable APPLICATION_ID is set: ", process.env.APPLICATION_ID)
-  } else {
+  if (! 'APPLICATION_ID' in process.env) {
     console.log("environment variable APPLICATION_ID is not set")
     process.exit(1)
   }
 
-  if ('APP_CLIENT_ID' in process.env) {
-    console.log("environment variable APP_CLIENT_ID is set: ", process.env.APP_CLIENT_ID)
-  } else {
+  if (! 'APP_CLIENT_ID' in process.env) {
     console.log("environment variable APP_CLIENT_ID is not set")
     process.exit(1)
   }
 
-  if ('APP_CLIENT_SECRET' in process.env) {
-    console.log("environment variable APP_CLIENT_SECRET is set")
-  } else {
+  if (! 'APP_CLIENT_SECRET' in process.env) {
     console.log("environment variable APP_CLIENT_SECRET is not set")
     process.exit(1)
   }
 
-  if ('VDC_REGION' in process.env) {
-    console.log("environment variable VDC_REGION is set: ", process.env.VDC_REGION)
-  } else {
+  if (! 'VDC_REGION' in process.env) {
     console.log("environment variable VDC_REGION is not set")
     process.exit(1)
   }

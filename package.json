@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "(source .env && node server.js) & ng serve --port 3002",
+    "start": "node server.js & ng serve --port 3002",
     "build": "ng build",
-    "serve": "source .env && node server.js",
-    "serve_win": "node server.js",
+    "serve": "node server.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
