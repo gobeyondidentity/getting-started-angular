@@ -14,19 +14,19 @@
     </div>
     <div style="margin-left: 50px; float: left; width: 40%;" >
         <h3> Try it out </h3>
-        <div *ngIf="!selectedCredential">
+        <div *ngIf="!selectedPasskey">
             <p>Select a passkey to login with</p>
-                <div *ngFor="let credential of credentials">
-                    <button style="width: 60%;" (click)="onSelect(credential)">
-                        <span>{{credential.identity.username}}</span>
+                <div *ngFor="let passkey of passkeys">
+                    <button style="width: 60%;" (click)="onSelect(passkey)">
+                        <span>{{passkey.identity.username}}</span>
                     </button>
                 </div>    
         </div>
-        <div *ngIf="selectedCredential && !idToken">
+        <div *ngIf="selectedPasskey && !idToken">
             <p>Signing you in with Secure Passkey...</p>
         </div>
-        <div *ngIf="selectedCredential && idToken">
-            <p> Welcome, <b>{{selectedCredential.identity.username}}</b>! Signed in sucessfully! </p>
+        <div *ngIf="selectedPasskey && idToken">
+            <p> Welcome, <b>{{selectedPasskey.identity.username}}</b>! Signed in sucessfully! </p>
             <code>
                 <p> ID Token Returned from Beyond Identity Auth Server:</p>
                 <pre>{{idToken}}</pre>

@@ -8,8 +8,8 @@
         <br><br>
         This is what happens when you enter a username and click Create Passkey
         <ol>
-            <li>A <a href="https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1#tag/Identities/operation/CreateIdentity" target="_blank">Create Identity request</a> is made to the Beyond Identity directory (and is successful).</li>
-            <li>A <a href="https://developer-docs-git-v1-beyondidentity.vercel.app/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob" target="_blank">Create Credential Binding Job request</a> is made to the Beyond Identity directory. The response returns a credential binding link</li> 
+            <li>A <a href="https://developer.beyondidentity.com/api/v1#tag/Identities/operation/CreateIdentity" target="_blank">Create Identity request</a> is made to the Beyond Identity directory (and is successful).</li>
+            <li>A <a href="https://developer.beyondidentity.com/api/v1#tag/Credential-Binding-Jobs/operation/CreateCredentialBindingJob" target="_blank">Create Credential Binding Job request</a> is made to the Beyond Identity directory. The response returns a credential binding link</li> 
             <li>The credential binding link is passed to the Beyond Identity SDK</li>
             <li>Upon success a private key is created in the device's hardware trust module and public key sent to Beyond Identity's cloud.</li>
         </ol>
@@ -17,7 +17,7 @@
     </div>
     <div style="margin-left: 50px; float: left; width: 40%;">
         <h3> Try it out </h3>
-    <div *ngIf="user.username == '' && user.credentialBindingLink == '' && user.credentialID == ''">
+    <div *ngIf="user.username == '' && user.credentialBindingLink == '' && user.passkeyID == ''">
         <div class="row">
                 <label for="new-user">Username: </label>
                 <input id="new-user" #username />
@@ -28,10 +28,10 @@
             </button>
         </div>
     </div>
-    <div *ngIf="user.username != '' && user.credentialID == ''">
+    <div *ngIf="user.username != '' && user.passkeyID == ''">
         Creating Secure Passkey...
     </div>
-    <div *ngIf="user.credentialID != ''">
+    <div *ngIf="user.passkeyID != ''">
         Created Passkey! Welcome <b>{{user.username}}</b>
     </div></div>
   </div>

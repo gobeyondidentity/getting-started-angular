@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { embeddedSdk } from '../embeddedSdk';
-import { Credential } from '@beyondidentity/bi-sdk-js';
+import { Passkey } from '@beyondidentity/bi-sdk-js';
 import { HttpClient } from '@angular/common/http';
-import { CredentialRedirect } from '../credentialredirect';
+import { PasskeyRedirect } from '../passkeyredirect';
 import { IDToken } from '../idtoken';
 import jwt_decode from 'jwt-decode';
 
@@ -14,46 +14,46 @@ import jwt_decode from 'jwt-decode';
 export class SigninComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
-  credentials: Credential[] = [];
+  passkeys: Passkey[] = [];
   idToken: String = '';
-  selectedCredential?: Credential;
+  selectedPasskey?: Passkey;
   ngOnInit(): void {
-    embeddedSdk.getCredentials().then((credentials) => {
-      this.credentials = credentials;
+    embeddedSdk.getPasskeys().then((passkeys) => {
+      this.passkeys = passkeys;
     });
   }
 
-  onSelect(credential: Credential): void {
-    this.selectedCredential = credential;
+  onSelect(passkey: Passkey): void {
+    this.selectedPasskey = passkey;
 
-    this.http.get<any>('http://localhost:3001/auth').subscribe((authRes) => {
+    this.http.get<any>('http://localhost:8082/auth').subscribe((authRes) => {
       this.http
-        .get<CredentialRedirect>(
+        .get<PasskeyRedirect>(
           authRes.authURL,
           // 'https://auth-us.beyondidentity.com/v1/tenants/000144d6b6299bce/realms/8f98ea17bd48e2ce/applications/0be1e2e7-414b-4d0f-b6fa-7b387aa017ae/authorize',
           {
             observe: 'response',
             params: {
               response_type: 'code',
-              redirect_uri: 'http://localhost:3001/auth/callback',
+              redirect_uri: 'http://localhost:8082/auth/callback',
               scope: 'openid',
               client_id: authRes.clientID,
             },
           }
         )
-        .subscribe((credentialRedirect) => {
+        .subscribe((passkeyRedirect) => {
           let authLink: string =
-            credentialRedirect.body?.authInvocationLink || '';
-          let authenticateUrl = 'http://localhost:3002' + authLink;
+            passkeyRedirect.body?.authInvocationLink || '';
+          let authenticateUrl = 'http://localhost:8083' + authLink;
+          if (this.selectedPasskey === undefined) {
+            throw new Error("No passkey selected");
+          }
           embeddedSdk
-            .authenticate(authenticateUrl, () => {
-              return this.selectedCredential.id;
-            })
+            .authenticate(authenticateUrl, this.selectedPasskey.id)
             .then((res) => {
               this.http
-                .get<IDToken>(res.redirectURL)
+                .get<IDToken>(res.redirectUrl)
                 .subscribe((tokenResponse) => {
-                  console.log(`got id token ${tokenResponse.idToken}`);
                   this.idToken = JSON.stringify(
                     jwt_decode(tokenResponse.idToken),
                     undefined,
@@ -62,7 +62,7 @@ export class SigninComponent implements OnInit {
                 });
             })
             .catch((reason) => {
-              console.log(`failed to auth because ${reason}`);
+              console.error(`failed to auth because ${reason}`);
             });
         });
     });

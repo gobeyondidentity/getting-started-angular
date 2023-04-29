@@ -4,7 +4,7 @@ const cors = require('cors')
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express()
-const port = 3001
+const port = 8082
 app.use(cors())
 app.use(express.json())
 
@@ -16,12 +16,12 @@ const applicationID = process.env.APPLICATION_ID || '';
 const applicationClientID = process.env.APP_CLIENT_ID || '';
 const applicationClientSecret = process.env.APP_CLIENT_SECRET || '';
 const authenticatorConfigID = process.env.AUTH_CONFIG_ID || '';
-const vdcRegion = process.env.VDC_REGION || '';
+const vdcRegion = process.env.REGION || '';
 const authorizationHeaderSecret = Buffer.from(applicationClientID+':'+applicationClientSecret, 'utf8').toString('base64')
 
 
 app.get('/', (req, res) => {
-  res.redirect("http://localhost:3002")
+  res.redirect("http://localhost:8083")
 })
 
 app.post('/users/signup', (req, res) => {
@@ -31,8 +31,9 @@ app.post('/users/signup', (req, res) => {
         identity: {
             display_name: req.body.username,
             traits: {
-                version: 'traits_v0',
-                username: req.body.username
+                type: 'traits_v0',
+                username: req.body.username,
+                primary_email_address: "angular-getting-started@example.com"
             }
         }
     },{
@@ -135,8 +136,8 @@ app.listen(port, () => {
     process.exit(1)
   }
 
-  if (! 'VDC_REGION' in process.env) {
-    console.log("environment variable VDC_REGION is not set")
+  if (! 'REGION' in process.env) {
+    console.log("environment variable REGION is not set")
     process.exit(1)
   }
   console.log(`Server started.`)

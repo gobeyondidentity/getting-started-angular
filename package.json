@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js & ng serve --port 3002",
+    "start": "node server.js & ng serve --port 8083",
     "build": "ng build",
     "serve": "node server.js",
     "watch": "ng build --watch --configuration development",
@@ -19,7 +19,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "@beyondidentity/bi-sdk-js": "1.0.7",
+    "@beyondidentity/bi-sdk-js": "2.0.2",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "jwt-decode": "^3.1.2",

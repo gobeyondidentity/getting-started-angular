@@ -16,7 +16,7 @@ export class SignupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-  user: User = { username: '', credentialBindingLink: '', credentialID: '' };
+  user: User = { username: '', credentialBindingLink: '', passkeyID: '' };
 
   signup(username: string): void {
     if (!username) {
@@ -29,17 +29,17 @@ export class SignupComponent implements OnInit {
       .subscribe((userRes) => {
         this.user.credentialBindingLink = userRes.credentialBindingLink;
         this.log(
-          `Recieved CredentialBindingLink from SignupService ${this.user.credentialBindingLink}`
+          `Recieved PasskeyBindingLink from SignupService ${this.user.credentialBindingLink}`
         );
         let bindingLink: string = this.user.credentialBindingLink || '';
         embeddedSdk
-          .bindCredential(bindingLink)
-          .then((bindCredentialResponse) => {
-            this.log(`Successfully bound credential ${bindCredentialResponse}`);
-            this.user.credentialID = bindCredentialResponse.id;
+          .bindPasskey(bindingLink)
+          .then((bindPasskeyResponse) => {
+            this.log(`Successfully bound passkey ${bindPasskeyResponse}`);
+            this.user.passkeyID = bindPasskeyResponse.passkey.id;
           })
           .catch((reason) => {
-            this.log(`failed to bind credential because ${reason}`);
+            this.log(`failed to bind passkey because ${reason}`);
           });
       });
   }
