@@ -19,7 +19,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
-    "@beyondidentity/bi-sdk-js": "2.0.5",
+    "@beyondidentity/bi-sdk-js": "3.0.2",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "jwt-decode": "^3.1.2",
